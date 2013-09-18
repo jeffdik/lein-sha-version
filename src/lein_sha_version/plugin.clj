@@ -14,9 +14,11 @@
                                    (build))
         ^ObjectId head (.resolve repository "HEAD")]
     (if head
-      (let [abbr (.abbreviate head (:length sha 7))]
-        (debug "Found SHA" (.name head) "using" (.name abbr))
-        (.name abbr))
+      (let [abbr (.name (.abbreviate head (:length sha 7)))]
+        (debug "Found SHA" (.name head) "using" abbr)
+        (if (:append? sha)
+          (str version (:separator sha "-") abbr)
+          abbr))
       version)))
 
 (defn middleware
